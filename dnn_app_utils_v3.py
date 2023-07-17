@@ -102,6 +102,8 @@ def load_data():
 
 
 def initialize_parameters(n_x, n_h, n_y):
+    np.random.seed(1)
+
     W1 = np.random.randn(n_h, n_x) * 0.01
     b1 = np.zeros((n_h, 1))
     W2 = np.random.randn(n_y, n_h) * 0.01
@@ -123,15 +125,15 @@ def initialize_parameters(n_x, n_h, n_y):
 
     
 def initialize_parameters_deep(layer_dims):
-    np.random.seed(3)
+    np.random.seed(1)
 
     parameters = {}
     for L in range(1, len(layer_dims)):
-        parameters["W" + str(L)] = np.random.randn(layer_dims[L], layer_dims[L - 1]) * 0.01
+        parameters["W" + str(L)] = np.random.randn(layer_dims[L], layer_dims[L - 1]) / np.sqrt(layer_dims[L-1])
         parameters["b" + str(L)] = np.zeros((layer_dims[L], 1))
 
-        assert(parameters["W" + str(L)] == (layer_dims[L], layer_dims[L - 1]))
-        assert(parameters["b" + str(L)] == (layer_dims[L], 1))
+        assert(parameters["W" + str(L)].shape == (layer_dims[L], layer_dims[L - 1]))
+        assert(parameters["b" + str(L)].shape == (layer_dims[L], 1))
 
     return parameters
 
@@ -209,7 +211,7 @@ def linear_activation_backward(dA, cache, activation):
 
 def L_model_backward(AL, Y, caches):
     grads = {}
-    L = AL.shape[1]
+    L = len(caches)
     Y = Y.reshape(AL.shape)
     dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
 

@@ -122,7 +122,7 @@ def initialize_parameters(n_x, n_h, n_y):
     return parameters
 
     
-def initialize_paramaters_deep(layer_dims):
+def initialize_parameters_deep(layer_dims):
     np.random.seed(3)
 
     parameters = {}
@@ -163,14 +163,14 @@ def L_model_forward(X, parameters):
     AL = X
 
     for l in range(1, L):
-        WL = parameters["W" + str(l)]
-        bL = parameters["b" + str(l)]
-        AL, cache = linear_activation_forward(AL, WL, bL, "relu")
+        W = parameters["W" + str(l)]
+        b = parameters["b" + str(l)]
+        AL, cache = linear_activation_forward(AL, W, b, "relu")
         caches.append(cache)
 
-    WL = parameters["W" + str(L)]
-    bL = parameters["b" + str(L)]
-    AL, cache = linear_activation_forward(AL, WL, bL, "sigmoid")
+    W = parameters["W" + str(L)]
+    b = parameters["b" + str(L)]
+    AL, cache = linear_activation_forward(AL, W, b, "sigmoid")
     caches.append(cache)
 
     return AL, caches
